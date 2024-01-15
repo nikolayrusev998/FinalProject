@@ -135,6 +135,8 @@ public class StepDefinitions {
         index.clickSignupLoginBtn();
         signupLoginPage.fillLoginEmail("rrandom@abv.bg");
         signupLoginPage.fillLoginPass("randompass123");
+        signupLoginPage.clickLoginBtn();
+        signupLoginPage.validationPresented();
 
 
     }

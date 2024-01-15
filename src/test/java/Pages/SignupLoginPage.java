@@ -23,6 +23,7 @@ public class SignupLoginPage {
     By loginEmail = By.xpath("//form[@action='/login']/input[@name='email']");
     By loginPass = By.xpath("//form[@action='/login']/input[@name='password']");
     By loginBtn = By.xpath("//form[@action='/login']/button[@type='submit']");
+    By incorrectEmailPass = By.xpath("//form[@action='/login']/p[.='Your email or password is incorrect!']");
     public SignupLoginPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -96,6 +97,10 @@ public class SignupLoginPage {
 
     public void clickLoginBtn(){
         driver.findElement(loginBtn).click();
+    }
+
+    public void validationPresented(){
+        Assert.assertTrue(driver.findElement(incorrectEmailPass).isDisplayed());
     }
 
 
