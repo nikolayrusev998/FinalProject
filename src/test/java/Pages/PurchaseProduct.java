@@ -23,15 +23,19 @@ public class PurchaseProduct {
     public PurchaseProduct(WebDriver driver){this.driver = driver;}
 
     public void clickAddToCart(){
+        Assert.assertTrue(driver.findElement(addToCart).isEnabled());
         driver.findElement(addToCart).click();
     }
     public void clickViewCart(){
+        Assert.assertTrue(driver.findElement(viewCart).isEnabled());
         driver.findElement(viewCart).click();
     }
     public void clickProceedToCheckout(){
+        Assert.assertTrue(driver.findElement(proceedToCheckout).isEnabled());
         driver.findElement(proceedToCheckout).click();
     }
     public void clickPlaceOrder(){
+        Assert.assertTrue(driver.findElement(placeOrder).isEnabled());
         driver.findElement(placeOrder).click();
     }
     public void setNameOnCard(String cardName){
@@ -55,12 +59,14 @@ public class PurchaseProduct {
         driver.findElement(cardExpirationYear).sendKeys(year);
     }
     public void clickPay(){
+        Assert.assertTrue(driver.findElement(payConfirmOrder).isEnabled());
         driver.findElement(payConfirmOrder).click();
     }
     public void validatePlacedOrder(){
         Assert.assertTrue(driver.findElement(orderPlacedText).isDisplayed());
     }
     public void clickContinue(){
+        Assert.assertTrue(driver.findElement(orderContinue).isEnabled());
         driver.findElement(orderContinue).click();
     }
 }
