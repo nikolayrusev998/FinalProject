@@ -3,42 +3,22 @@ package stepDefinitions;
 import Pages.Index;
 import Pages.PurchaseProduct;
 import Pages.SignupLoginPage;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
+import Utils.Hooks;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class StepDefinitions {
-
-    WebDriver driver;
     SignupLoginPage signupLoginPage;
     Index index;
     PurchaseProduct purchaseProduct;
 
-    @Before
-    public void Setup() {
-        ChromeOptions opt = new ChromeOptions();
-        opt.addExtensions(new File("C:\\extension\\uBlock.crx"));
 
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver(opt);
-        driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        driver.get("https://automationexercise.com/");
-    }
 
     @Given("The user enters the site, clicks on Signup")
     public void the_user_enters_the_site_clicks_on_Signup() {
-        index = new Index(driver);
+        index = new Index(Hooks.driver);
 
         index.clickSignupLoginBtn();
 
@@ -47,7 +27,7 @@ public class StepDefinitions {
 
     @When("The user provides valid information")
     public void userEntersValidData() {
-        signupLoginPage = new SignupLoginPage(driver);
+        signupLoginPage = new SignupLoginPage(Hooks.driver);
 
         signupLoginPage.setNewUserNameField("Random");
         signupLoginPage.setNewUserEmailField("rrandom@abv.bg");
@@ -66,7 +46,7 @@ public class StepDefinitions {
 
     @Then("The user's account is successfully created")
     public void validateUserAccount() {
-        signupLoginPage = new SignupLoginPage(driver);
+        signupLoginPage = new SignupLoginPage(Hooks.driver);
 
         signupLoginPage.accCreated();
 
@@ -76,8 +56,8 @@ public class StepDefinitions {
 
     @Given("The user logins into the system")
     public void userLogin() {
-        index = new Index(driver);
-        signupLoginPage = new SignupLoginPage(driver);
+        index = new Index(Hooks.driver);
+        signupLoginPage = new SignupLoginPage(Hooks.driver);
 
         index.clickSignupLoginBtn();
         signupLoginPage.fillLoginEmail("rrandom@abv.bg");
@@ -89,8 +69,8 @@ public class StepDefinitions {
 
     @When("The user buys a product")
     public void buyProduct() {
-        index = new Index(driver);
-        purchaseProduct = new PurchaseProduct(driver);
+        index = new Index(Hooks.driver);
+        purchaseProduct = new PurchaseProduct(Hooks.driver);
 
         index.viewProduct();
         purchaseProduct.clickAddToCart();
@@ -109,7 +89,7 @@ public class StepDefinitions {
 
     @Then("The user successfully has bought a product")
     public void productBought() {
-        purchaseProduct = new PurchaseProduct(driver);
+        purchaseProduct = new PurchaseProduct(Hooks.driver);
 
         purchaseProduct.validatePlacedOrder();
         purchaseProduct.clickContinue();
@@ -119,9 +99,10 @@ public class StepDefinitions {
 
     @When("The user click on Delete account")
     public void deleteAccount() {
-        index = new Index(driver);
+        index = new Index(Hooks.driver);
 
         index.clickDelete();
+
         index.clickDeleteAccContinue();
 
 
@@ -129,21 +110,14 @@ public class StepDefinitions {
 
     @Then("The user no longer can login with his account")
     public void validateDeletedAccount() {
-        index = new Index(driver);
-        signupLoginPage = new SignupLoginPage(driver);
+        index = new Index(Hooks.driver);
+        signupLoginPage = new SignupLoginPage(Hooks.driver);
 
         index.clickSignupLoginBtn();
         signupLoginPage.fillLoginEmail("rrandom@abv.bg");
         signupLoginPage.fillLoginPass("randompass123");
         signupLoginPage.clickLoginBtn();
         signupLoginPage.validationPresented();
-
-
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
 
 
     }
